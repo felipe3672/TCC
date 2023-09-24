@@ -1,5 +1,6 @@
 #pip install tensorflow fastapi uvicorn python-multipart pillow tensorflow-serving-api matplotlib nump
 
+#docker run -t --rm -p 8501:8501 -v C:/Codigo_TCC:/Codigo_TCC tensorflow/serving --rest_api_port=8501 --model_config_file=/Codigo_TCC/Treino/model.config
 from fastapi import FastAPI, File, UploadFile
 import uvicorn 
 import numpy as np
@@ -18,6 +19,7 @@ app = FastAPI()
 
 
 endpoint ="http://localhost:8501/v1/models/modelo_doencas/versions/2:predict"
+
 CLASSES = ["Pepper__bell___Bacterial_spot",
 "Pepper__bell___healthy",
 "Potato___Early_blight",
