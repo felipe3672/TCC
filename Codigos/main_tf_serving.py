@@ -1,6 +1,13 @@
 #pip install tensorflow fastapi uvicorn python-multipart pillow tensorflow-serving-api matplotlib nump
 
 #docker run -t --rm -p 8501:8501 -v C:/Codigo_TCC:/Codigo_TCC tensorflow/serving --rest_api_port=8501 --model_config_file=/Codigo_TCC/Treino/model.config
+
+#npm rm -g create-react-app
+
+#npm install -g create-react-app
+
+#npx create-react-app frontend
+
 from fastapi import FastAPI, File, UploadFile
 import uvicorn 
 import numpy as np
