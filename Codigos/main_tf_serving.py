@@ -15,6 +15,7 @@ from io import BytesIO
 from PIL import Image
 import tensorflow as tf 
 import requests
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -23,7 +24,13 @@ app = FastAPI()
 #MODELO = tf.keras.models.load_model("C:/Codigo_TCC/Models/2")     
 # MODELO = tf.keras.models.load_model("C:/Codigo_TCC/Models/modelo_treinado_97.h5") 
 
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todas as origens, ajuste conforme necessário
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos os métodos HTTP
+    allow_headers=["*"],  # Permite todos os cabeçalhos HTTP
+)
 
 endpoint ="http://localhost:8501/v1/models/modelo_doencas/versions/2:predict"
 
