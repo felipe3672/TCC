@@ -69,3 +69,6 @@ body {
         background-color: #000;
     }
 }
+#dropzone.dragover {
+    border-color: #555;
+}

@@ -91,3 +91,45 @@ function exibirResposta(data) {
     // Exibe a caixa de resultado
     document.getElementById('resultado').style.display = 'block';
 }
+
+const dropzone = document.getElementById('dropzone');
+
+dropzone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    dropzone.style.border = '2px solid #008a49';
+});
+
+dropzone.addEventListener('dragleave', () => {
+    dropzone.style.border = '2px solid #ccc';
+});
+
+dropzone.addEventListener('drop', (event) => {
+    event.preventDefault();
+    dropzone.style.border = '2px solid #ccc';
+
+    const arquivo = event.dataTransfer.files[0];
+
+    if (arquivo) {
+        // Valida o tipo de arquivo
+        if (validarTipoArquivo(arquivo)) {
+            const formData = new FormData();
+            formData.append('arquivo', arquivo);
+
+            // Continua com a requisição
+            fetch('http://localhost:8000/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Resposta recebida:', data);
+                exibirResposta(data);
+            })
+            .catch(error => console.error('Erro:', error));
+        } else {
+            alert('Apenas imagens (PNG, JPG, JPEG) são permitidas!');
+        }
+    } else {
+        alert('Selecione um arquivo para enviar.');
+    }
+});
