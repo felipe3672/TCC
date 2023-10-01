@@ -24,13 +24,15 @@ app = FastAPI()
 #MODELO = tf.keras.models.load_model("C:/Codigo_TCC/Models/2")     
 # MODELO = tf.keras.models.load_model("C:/Codigo_TCC/Models/modelo_treinado_97.h5") 
 
+# Configurar a política CORS para permitir todas as origens (*)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permite todas as origens, ajuste conforme necessário
+    allow_origins=["*"],  # Pode ser configurado para permitir apenas origens específicas
     allow_credentials=True,
-    allow_methods=["*"],  # Permite todos os métodos HTTP
-    allow_headers=["*"],  # Permite todos os cabeçalhos HTTP
+    allow_methods=["*"],  # Pode ser configurado para permitir métodos específicos (GET, POST, etc.)
+    allow_headers=["*"],  # Pode ser configurado para permitir cabeçalhos específicos
 )
+
 
 endpoint ="http://localhost:8501/v1/models/modelo_doencas/versions/2:predict"
 

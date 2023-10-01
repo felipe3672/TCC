@@ -83,3 +83,16 @@ body {
 #dropzone.dragover {
     border-color: #555;
 }
+
+#resultado {
+    display: none;  /* Inicialmente, ocultar o elemento de resultado */
+}
+
+#resultado.mostrar {
+    display: block;  /* Mostrar o elemento de resultado quando a classe 'mostrar' estiver presente */
+}
+
+#resultado.erro {
+    color: red;
+    font-weight: bold;
+}

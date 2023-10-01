@@ -1,17 +1,23 @@
-function validarTipoArquivo(arquivo) {
-    const tiposPermitidos = ['image/png', 'image/jpeg', 'image/jpg'];
-    return tiposPermitidos.includes(arquivo.type);
-}
-
 // Função para abrir o seletor de arquivo ao clicar na dropzone
 function selecionarArquivo() {
     document.getElementById('inputArquivo').click();
+}
+
+function validarTipoArquivo(arquivo) {
+    const tiposPermitidos = ['image/png', 'image/jpeg', 'image/jpg'];
+    return tiposPermitidos.includes(arquivo.type);
 }
 
 // Função para processar o arquivo selecionado
 function processarArquivo() {
     console.log('Processando arquivo...');
     const formData = new FormData();
+
+    // Oculta o elemento de mensagens de erro
+    document.getElementById('mensagensErro').style.display = 'none';
+
+    // Oculta o elemento de resultado
+    document.getElementById('resultado').style.display = 'none';
 
     // Obtém o arquivo do input
     const inputArquivo = document.getElementById('inputArquivo');
@@ -28,18 +34,25 @@ function processarArquivo() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Resposta recebida:', data);
-
+                
                 // Exibir a resposta na tela
                 exibirResposta(data);
+                
             })
             .catch(error => {
-                console.error('Erro:', error);
-
-                // Tratar o erro e exibir uma mensagem
-                exibirErro();
+                console.error('Erro na requisição:', error.message);
+                
+                // Exibir mensagem de erro
+                exibirErro('Erro no processamento da imagem ou a imagem não é uma planta. Tente novamente.');
+                
             });
         } else {
             // Se o tipo de arquivo não for válido, exibe uma mensagem
@@ -49,6 +62,65 @@ function processarArquivo() {
         // Se nenhum arquivo foi selecionado, exibe uma mensagem
         alert('Selecione um arquivo para enviar.');
     }
+}
+
+function exibirResposta(data) {
+    const classeElemento = document.getElementById('classe');
+    const assertividadeElemento = document.getElementById('assertividade');
+    const resultadoElemento = document.getElementById('resultado');
+
+
+    if (classeElemento && assertividadeElemento && resultadoElemento) {
+        // Limpar o conteúdo anterior
+        resultadoElemento.innerHTML.trim() === '';
+
+        // Traduz a classe antes de exibi-la
+        const classeTraduzida = traduzirClasse(data.classe);
+
+        // Atualiza o conteúdo do elemento <p>
+        classeElemento.innerHTML = `<strong>Classe:</strong> <span style="font-weight: normal "> ${classeTraduzida} </span>`;
+
+        // Atualiza o valor da assertividade
+        assertividadeElemento.innerHTML = `<strong>Assertividade:</strong> <span class="assertividade-texto" style="font-weight: normal ">${(data.assertividade * 100).toFixed(2)}%</span>`;
+
+        // Adiciona a bolinha com base na assertividade
+        adicionarBolinha(assertividadeElemento, data.assertividade);
+
+        // Exibe a caixa de resultado
+        resultadoElemento.style.display = 'block';
+    } else {
+        
+
+        // Traduz a classe antes de exibi-la
+        const classeTraduzida = traduzirClasse(data.classe);
+
+        // Atualiza o conteúdo do elemento <p>
+        classeElemento.innerHTML = `<strong>Classe:</strong> <span style="font-weight: normal "> ${classeTraduzida} </span>`;
+
+        // Atualiza o valor da assertividade
+        assertividadeElemento.innerHTML = `<strong>Assertividade:</strong> <span class="assertividade-texto" style="font-weight: normal ">${(data.assertividade * 100).toFixed(2)}%</span>`;
+
+        // Adiciona a bolinha com base na assertividade
+        adicionarBolinha(assertividadeElemento, data.assertividade);
+
+        // Exibe a caixa de resultado
+        resultadoElemento.style.display = 'block';
+        
+    }
+}
+
+// Função para exibir uma mensagem de erro na tela
+
+function exibirErro(mensagem) {
+    const resultadoElemento = document.getElementById('resultado');
+    const mensagensErroElemento = document.getElementById('mensagensErro');
+
+    // Limpar qualquer conteúdo existente
+    resultadoElemento.innerHTML.trim() === '';
+
+    // Adicionar a mensagem de erro
+    mensagensErroElemento.innerHTML = `<p style="color: red; font-weight: bold;">${mensagem}</p>`;
+    mensagensErroElemento.style.display = 'block';
 }
 
 // Função para traduzir a classe para o português
@@ -81,31 +153,6 @@ function traduzirClasse(classe) {
     }
 }
 
-// Função para exibir a resposta na tela
-function exibirResposta(data) {
-    const classeElemento = document.getElementById('classe');
-    const assertividadeElemento = document.getElementById('assertividade');
-
-    // Verifica o status da resposta
-    if (data.status === 'success') {
-        // Traduz a classe antes de exibi-la
-        const classeTraduzida = traduzirClasse(data.classe);
-
-        // Atualiza o conteúdo dos elementos <p>
-        classeElemento.innerHTML = `<strong>Classe:</strong> <span style="font-weight: normal "> ${classeTraduzida} </span>`;
-        assertividadeElemento.innerHTML = `<strong>Assertividade:</strong> <span style="font-weight: normal "> ${(data.assertividade * 100).toFixed(2)}% </span>`;
-
-        // Adiciona a bolinha com base na assertividade
-        adicionarBolinha(assertividadeElemento, data.assertividade);
-
-        // Exibe a caixa de resultado
-        document.getElementById('resultado').style.display = 'block';
-    } else {
-        // Se o status não for 'success', exibe uma mensagem de erro
-        exibirErro();
-    }
-}
-
 // Função para adicionar a bolinha com base na assertividade
 function adicionarBolinha(container, assertividade) {
     const bolinha = document.createElement('span');
@@ -124,50 +171,46 @@ function adicionarBolinha(container, assertividade) {
     container.appendChild(bolinha);
 }
 
-const dropzone = document.getElementById('dropzone');
+document.addEventListener('DOMContentLoaded', function () {
 
-dropzone.addEventListener('dragover', (event) => {
-    event.preventDefault();
-    dropzone.style.border = '2px solid #008a49';
-});
+    const dropzone = document.getElementById('dropzone');
 
-dropzone.addEventListener('dragleave', () => {
-    dropzone.style.border = '2px solid #ccc';
-});
+    dropzone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        event.currentTarget.style.border = '2px solid #008a49';
+    });
 
-dropzone.addEventListener('drop', (event) => {
-    event.preventDefault();
-    dropzone.style.border = '2px solid #ccc';
+    dropzone.addEventListener('dragleave', (event) => {
+        event.currentTarget.style.border = '2px solid #ccc';
+    });
 
-    const arquivo = event.dataTransfer.files[0];
+    dropzone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.currentTarget.style.border = '2px solid #ccc';
 
-    if (arquivo) {
-        // Valida o tipo de arquivo
-        if (validarTipoArquivo(arquivo)) {
-            const formData = new FormData();
-            formData.append('arquivo', arquivo);
+        const arquivo = event.dataTransfer.files[0];
 
-            // Continua com a requisição
-            fetch('http://localhost:8000/predict', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Resposta recebida:', data);
-                exibirResposta(data);
-            })
-            .catch(error => console.error('Erro:', error));
+        if (arquivo) {
+            if (validarTipoArquivo(arquivo)) {
+                const formData = new FormData();
+                formData.append('arquivo', arquivo);
+
+                fetch('http://localhost:8000/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Resposta recebida:', data);
+                    exibirResposta(data);
+                })
+                .catch(error => console.error('Erro:', error));
+            } else {
+                alert('Apenas imagens (PNG, JPG, JPEG) são permitidas!');
+            }
         } else {
-            alert('Apenas imagens (PNG, JPG, JPEG) são permitidas!');
+            alert('Selecione um arquivo para enviar.');
         }
-    } else {
-        alert('Selecione um arquivo para enviar.');
-    }
+    });
+
 });
-// Função para exibir uma mensagem de erro
-function exibirErro() {
-    const resultadoElemento = document.getElementById('resultado');
-    resultadoElemento.innerHTML = '<p style="color: red; font-weight: bold;">Erro no processamento da imagem ou a imagem não é uma planta. Tente novamente.</p>';
-    resultadoElemento.style.display = 'block';
-}
