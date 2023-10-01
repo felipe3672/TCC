@@ -76,20 +76,42 @@ function traduzirClasse(classe) {
     }
 }
 
-// Função para exibir a resposta na tela
 function exibirResposta(data) {
     const classeElemento = document.getElementById('classe');
     const assertividadeElemento = document.getElementById('assertividade');
-    
+
     // Traduz a classe antes de exibi-la
     const classeTraduzida = traduzirClasse(data.classe);
 
     // Atualiza o conteúdo dos elementos <p>
     classeElemento.innerHTML = `<strong>Classe:</strong> <span style="font-weight: normal "> ${classeTraduzida} </span>`;
+
+    // Atualiza o valor da assertividade
     assertividadeElemento.innerHTML = `<strong>Assertividade:</strong> <span style="font-weight: normal "> ${(data.assertividade * 100).toFixed(2)}% </span>`;
+
+    // Adiciona a bolinha com base na assertividade
+    adicionarBolinha(assertividadeElemento, data.assertividade);
 
     // Exibe a caixa de resultado
     document.getElementById('resultado').style.display = 'block';
+}
+
+// Função para adicionar a bolinha com base na assertividade
+function adicionarBolinha(container, assertividade) {
+    const bolinha = document.createElement('span');
+    bolinha.className = 'bolinha';
+
+    // Adiciona a cor com base na assertividade
+    if (assertividade >= 0.85) {
+        bolinha.style.backgroundColor = '#4CAF50';  // Verde
+    } else if (assertividade >= 0.60) {
+        bolinha.style.backgroundColor = '#FFD700';  // Amarelo
+    } else {
+        bolinha.style.backgroundColor = '#FF0000';  // Vermelho
+    }
+
+    // Adiciona a bolinha ao container
+    container.appendChild(bolinha);
 }
 
 const dropzone = document.getElementById('dropzone');

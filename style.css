@@ -54,7 +54,10 @@ body {
 }
 
 #resultado {
+    
     display: none;
+    flex-direction: column; /* Alterado para column */
+    align-items: center; /* Adicionado para centralizar na vertical */
     font-weight: bold;
     background-color: #fff;
     border: 2px dotted #008a49;
@@ -62,6 +65,14 @@ body {
     padding: 20px;
     color: #333;
     margin-top: 20px; /* Adicionado espaço superior */
+    
+}
+.bolinha {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 5px;
 }
 
 @media screen and (max-width: 500px ) {
