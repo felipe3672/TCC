@@ -1,0 +1,39 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column; /* Alterado para column */
+}
+
+#dropzone {
+    width: 300px;
+    height: 200px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin-bottom: 20px; /* Adicionado margem inferior para separação */
+}
+
+#dropzone:hover {
+    border-color: #555;
+}
+
+#dropzone p {
+    margin: 0;
+}
+
+#resultado {
+    display: none; /* Adicionado para ocultar inicialmente */
+    font-weight: bold;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+}
