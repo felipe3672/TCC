@@ -52,18 +52,18 @@ function traduzirClasse(classe) {
     const traducoes = {
         "Pepper__bell___Bacterial_spot": "Pimentão - Mancha Bacteriana",
         "Pepper__bell___healthy": "Pimentão - Saudável",
-        "Potato___Early_blight": "Batata - Míldio Inicial",
-        "Potato___Late_blight": "Batata - Míldio Tardio",
+        "Potato___Early_blight": "Batata - Alternariose Inicial",
+        "Potato___Late_blight": "Batata - Alternariose Tardio",
         "Potato___healthy": "Batata - Saudável",
         "Tomato_Bacterial_spot": "Tomate - Mancha Bacteriana",
-        "Tomato_Early_blight": "Tomate - Míldio Inicial",
-        "Tomato_Late_blight": "Tomate - Míldio Tardio",
-        "Tomato_Leaf_Mold": "Tomate - Míldio Foliar",
-        "Tomato_Septoria_leaf_spot": "Tomate - Mancha Foliar Septoria",
+        "Tomato_Early_blight": "Tomate - Alternariose Inicial",
+        "Tomato_Late_blight": "Tomate - Alternariose Tardio",
+        "Tomato_Leaf_Mold": "Tomate - Mancha de cladosporium - Fungo",
+        "Tomato_Septoria_leaf_spot": "Tomate - Septoriose - Fungo",
         "Tomato_Spider_mites_Two_spotted_spider_mite": "Tomate - Ácaro Rajado",
         "Tomato__Target_Spot": "Tomate - Mancha Alvo",
-        "Tomato__Tomato_YellowLeaf__Curl_Virus": "Tomate - Vírus do Enrolamento das Folhas Amarelas",
-        "Tomato__Tomato_mosaic_virus": "Tomate - Vírus do Mosaico",
+        "Tomato__Tomato_YellowLeaf__Curl_Virus": "Tomate - Vírus do Enrolamento das Folhas Amarelas - begomovírus",
+        "Tomato__Tomato_mosaic_virus": "Tomate - Vírus do mosaico do tomateiro",
         "Tomato_healthy": "Tomate - Saudável"
     };
 
