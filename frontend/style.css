@@ -1,29 +1,52 @@
 body {
+    font-family: 'Roboto', sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
-    flex-direction: column; /* Alterado para column */
+    flex-direction: column;
+    background-color: #4CAF50;
+    color: #fff; /* Cor do texto padrão para o corpo */
 }
 
+#container {
+    text-align: center;
+    color: #000; /* Cor do texto para a nova caixa */
+    background-color: #fff; /* Cor do fundo para a nova caixa */
+    padding: 20px; /* Adicionado espaço ao redor do conteúdo */
+    border-radius: 15px; /* Borda arredondada para a nova caixa */
+}
+#mensagem {
+    font-family: 'Nunito', sans-serif; /* Substitua 'Nunito' pela fonte do Google desejada */
+    font-size: clamp(16px,3vw,24px);/* Ajuste o tamanho da fonte conforme necessário */
+    margin-bottom: 20px;
+    color: #333;
+}
+#mensagem > h3{
+    font-size: clamp(16px,3vw,24px);
+}
+
+
 #dropzone {
-    width: 300px;
+    width: 100%;
     height: 200px;
-    border: 2px solid #ccc;
+    font-size: clamp(10px,3vw,24px);
+    border: 2px solid #008a49;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-family: Arial, sans-serif;
     color: #333;
-    margin-bottom: 20px; /* Adicionado margem inferior para separação */
 }
 
+#dropzone > img{
+    width: clamp(50px,50vw,130px);
+}
 #dropzone:hover {
-    border-color: #555;
+    border-color: #fff;
 }
 
 #dropzone p {
@@ -31,9 +54,18 @@ body {
 }
 
 #resultado {
-    display: none; /* Adicionado para ocultar inicialmente */
+    display: none;
     font-weight: bold;
-    border: 2px dashed #ccc;
+    background-color: #fff;
+    border: 2px dotted #008a49;
     border-radius: 10px;
     padding: 20px;
+    color: #333;
+    margin-top: 20px; /* Adicionado espaço superior */
+}
+
+@media screen and (max-width: 500px ) {
+    body{
+        background-color: #000;
+    }
 }
